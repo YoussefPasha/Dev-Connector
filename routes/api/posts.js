@@ -42,4 +42,20 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: "Post Not Found" });
+    }
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    if (error.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Post Not Found" });
+    }
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
