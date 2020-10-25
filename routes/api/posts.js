@@ -102,7 +102,11 @@ router.put("/like/:id", auth, async (req, res) => {
   }
 });
 
-router.put("/like/:id", auth, async (req, res) => {
+
+
+
+
+router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     // Check if the post has already been liked
