@@ -102,10 +102,6 @@ router.put("/like/:id", auth, async (req, res) => {
   }
 });
 
-
-
-
-
 router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -132,5 +128,45 @@ router.put("/unlike/:id", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+router.post(
+  "/comment/:id",
+  auth,
+  [check("text", "Text is required").not().isEmpty()],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const user = await User.findById(req.user.id).select("-password");
+
+      const post = await Post.findById(req.params.id);
+
+      const newComment = new Post({
+        text: req.body.text,
+        name: user.name,
+        avatar: user.avatar,
+        user: req.user.id,
+      });
+
+      post.comments.unshift(newComment);
+
+      await post.save();
+      res.json(post.comments);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+
+
+
+
+
+
+
 
 module.exports = router;
