@@ -39,10 +39,12 @@ export const createProfile = (formData, history, edit = false) => async (
       payload: res.data,
     });
 
-    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created" , 'success'));
+    dispatch(setAlert(edit ? "Profile Updated" : "Profile Created", "success"));
 
     if (!edit) {
       history.push("/dashboard");
+    } else {
+      window.scrollTo(0, 0);
     }
   } catch (error) {
     const errors = error.response.data.errors;
