@@ -8,5 +8,6 @@ export default () => (
       style={{ width: "50px", margin: "auto", display: "block" }}
       alt="Loading..."
     />
+    {console.log("Spinner here")}
   </React.Fragment>
 );
