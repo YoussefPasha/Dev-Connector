@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { addExperience } from "../../actions/profile";
 import { Link, withRouter } from "react-router-dom";
 
-const AddExperience = (props) => {
+const AddExperience = ({ addExperience, history }) => {
   const [formData, setFormData] = useState({
     company: "",
     title: "",
@@ -19,10 +19,11 @@ const AddExperience = (props) => {
 
   const { company, title, location, to, from, current, description } = formData;
 
-  const onChange = e => setFormData({
-    ...formData,
-    [e.target.name]: e.target.value,
-  });
+  const onChange = (e) =>
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
 
   return (
     <Fragment>
@@ -32,7 +33,13 @@ const AddExperience = (props) => {
         positions that you have had in the past
       </p>
       <small>* = required field</small>
-      <form class="form">
+      <form
+        class="form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          addExperience(formData, history);
+        }}
+      >
         <div class="form-group">
           <input
             type="text"
@@ -107,9 +114,9 @@ const AddExperience = (props) => {
           ></textarea>
         </div>
         <input type="submit" class="btn btn-primary my-1" />
-        <a class="btn btn-light my-1" href="dashboard.html">
+        <Link class="btn btn-light my-1" href="./dashboard">
           Go Back
-        </a>
+        </Link>
       </form>
     </Fragment>
   );
