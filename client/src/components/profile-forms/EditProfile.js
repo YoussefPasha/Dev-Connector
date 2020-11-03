@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -45,7 +44,8 @@ const EditProfile = ({
       youtube: loading || !profile.youtube ? "" : profile.youtube,
       instagram: loading || !profile.instagram ? "" : profile.instagram,
     });
-  }, [loading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCurrentProfile, loading]);
 
   const {
     company,
