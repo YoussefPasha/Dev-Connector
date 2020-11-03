@@ -6,6 +6,7 @@ const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 const request = require("request");
 const config = require("config");
+const Post = require("../../models/Post");
 //Test and get Api
 router.get("/me", auth, async (req, res) => {
   try {
@@ -139,6 +140,8 @@ router.get("/user/:user_id", async (req, res) => {
 
 router.delete("/", auth, async (req, res) => {
   try {
+    await Post.deleteMany({ user: req.user.id });
+
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findOneAndRemove({ _id: req.user.id });
     res.json({ msg: "User Deleted" });
