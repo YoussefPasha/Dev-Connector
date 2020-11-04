@@ -7,6 +7,7 @@ const User = require("../../models/User");
 const request = require("request");
 const config = require("config");
 const Post = require("../../models/Post");
+const normalize = require("normalize-url");
 //Test and get Api
 router.get("/me", auth, async (req, res) => {
   try {
@@ -76,14 +77,13 @@ router.post(
       profileFields.skills = skills.split(",").map((skill) => skill.trim());
     }
 
-    profileFields.social = {};
-    if (youtube) {
-      profileFields.social.youtube = youtube;
-      profileFields.social.twitter = twitter;
-      profileFields.social.facebook = facebook;
-      profileFields.social.instagram = instagram;
-      profileFields.social.linkedin = linkedin;
+    const socialfields = { youtube, twitter, instagram, linkedin, facebook };
+
+    for (const [key, value] of Object.entries(socialfields)) {
+      if (value && value.length > 0)
+        socialfields[key] = normalize(value, { forceHttps: true });
     }
+    profileFields.social = socialfields;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });

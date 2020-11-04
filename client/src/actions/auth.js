@@ -46,6 +46,7 @@ export const register = ({ name, email, password }) => async (dispatch) => {
       payload: res.data,
     });
     dispatch(loadUser);
+    window.location.reload();
   } catch (error) {
     const errors = error.response.data.errors;
     if (errors) {

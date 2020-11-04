@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import { getProfileByID } from "../../actions/profile";
 import { Link } from "react-router-dom";
+import ProfileTop from "./ProfileTop";
+import ProfileAbout from "./profileAbout";
 
 const Profile = ({
   getProfileByID,
@@ -30,6 +32,10 @@ const Profile = ({
                 Edit Your Profile
               </Link>
             )}
+          <div className="profile-grid my-1">
+            <ProfileTop profile={profile} />
+            <ProfileAbout profile={profile} />
+          </div>
         </Fragment>
       )}
     </Fragment>
